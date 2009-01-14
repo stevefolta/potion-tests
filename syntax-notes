@@ -1,6 +1,8 @@
 Blocks start with ":" and end with ".".  "_" or "…" followed by an identifier is equivalent to a string of "."s.
 
-A list is comma-separated values surrounded by parentheses.
+A table is comma-separated values surrounded by parentheses.
 
-A closure/function is a list followed by a block.
+A closure/function is a table followed by a block.
+
+OPS seems not to be used.  There are odd "query", "path", "querypath", and "message" tokens.  But "message" seems to include identifiers.
 

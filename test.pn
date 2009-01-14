@@ -1,4 +1,10 @@
-"foo" + "bar"
+show = (value):
+	value string print
+	"\n" print
+	.
+
+
+show("foo" + "bar")
 
 # Object foom = "foo"
 # Object foom
