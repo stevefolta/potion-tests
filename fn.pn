@@ -1,0 +1,13 @@
+double = (x): x + x.
+
+double(2+1) string print
+"\n" print
+
+show = (value):
+	value string print
+	"\n" print
+	.
+
+show("test")
+show(double(1+1+1))
+
