@@ -8,6 +8,21 @@ show = (value):
 	"\n" print
 	.
 
-show("test")
 show(double(1+1+1))
+
+# Why is this not "5"?:
+# show((x): x + 3. (2))
+
+show("---")
+
+val = 5
+show(val)
+val_up = ():
+	val = val + 1
+	.
+show("made val_up()")
+val_up()
+val_up()
+show("upped the val")
+show(val)
 
