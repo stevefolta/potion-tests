@@ -1,0 +1,18 @@
+# Preamble
+
+show = (value):
+	value string print
+	"\n" print
+	.
+
+
+# Main
+
+Number def("foo", (): show("Number foo").)
+0 foo
+
+Foo = Number delegated
+Foo def("foo", (): show("foo").)
+my_foo = Foo allocate
+my_foo foo
+

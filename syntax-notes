@@ -1,8 +1,20 @@
-Blocks start with ":" and end with ".".  "_" or "…" followed by an identifier is equivalent to a string of "."s.
+== Syntax ==
+
+Blocks start with ":" and end with ".".  "_" or "…" followed by an identifier is equivalent to a string of "."s.  Within a block, newlines separate statements.
 
 A table is comma-separated values surrounded by parentheses.
 
 A closure/function is a table followed by a block.
 
-OPS seems not to be used.  There are odd "query", "path", "querypath", and "message" tokens.  But "message" seems to include identifiers.
+(OPS seems not to be used.  There are odd "query", "path", "querypath", and "message" tokens.  But "message" seems to include identifiers.)
+
+
+== Object Model ==
+
+Vtables ("Mixins") respond to "lookup", "allocate", "def", and "delegated".  "def" can take either a closure or a literal.  (Or a "proto", aka "Compiled", but I don't know what that is.  A bytecoded method?  Yeah, looks like.)  "delegated" returns a new vtable which is a subclass of the receiver.
+
+"Object", etc are all vtables.  A list: Lobby, Mixin, Object, Number, NilKind, Boolean, String, Tuple, Closure, Potion, Source, Bytes, Compiled, Ref.  (These are all defined in Lobby.)
+
+Lobby is the root of the class tree, above even Object.  Vtable ("Mixin") and Object are its two subclasses.
+
 
