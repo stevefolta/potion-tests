@@ -1,6 +1,6 @@
 == Syntax ==
 
-Blocks start with ":" and end with ".".  "_" or "…" followed by an identifier is equivalent to a string of "."s.  Within a block, newlines separate statements.
+Blocks start with ":" and end with ".".  "_" or "…" followed by an identifier is equivalent to a string of "."s.  Within a block, newlines or commas separate statements.
 
 A table is comma-separated values surrounded by parentheses.
 

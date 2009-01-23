@@ -4,7 +4,109 @@ show = (value):
 	.
 
 
-show [b, c]
+show("== Basics ==")
+show( (1, "a", "foo") )
+show( ("a"
+	"b"
+	"c") )
+show( (x): x + 1. )
+π = "3.14159"
+show(π)
+
+show("\n== Blocks ==")
+show( : "test" print, "\n" print. )
+show(
+	: "test" print
+	"\n" print
+	.)
+flurgh = : "test" print, "\n" print.
+show(flurgh())
+
+
+show("\n== function invocation ==")
+value = 3
+fn = (x): x + 1.
+show(value)
+show(fn)
+show(fn(value))
+show(fn(value, 7))
+# show(3(fn)) 	# == 3, and stops the script cold.
+# show("baz"(fn)) 	# == "baz", and stops the script cold.
+# show(value(fn)) 	# Crashes.
+
+show("extra args:")
+fn2 = (first, second): second.
+show( fn2("foo"): "bar". )
+bar = fn2("foo"): "bar".
+show( bar("baz") )
+
+show("block args:")
+show( fn2("a"): "b". )
+seconded = fn2("a"): "b".
+show( seconded() )
+
+show("\n== Control ==")
+show( if (3 < 4): "Yes". )
+show("xxxxx")
+show( if (3 > 4): "No". ) 	# Returns a random stale value, actually "xxxxx".
+show( if (3 < 4): "Yes". else: "No". )
+# show(if) 	# Crashes.
+x = 3
+if (x < 3):
+	"Less\n" print.
+elsif (x == 3):
+	"Equal\n" print.
+else:
+	"Greater\n" print.
+
+i = 0
+while (i < 5):
+	i string print, "\n" print
+	i = i + 1
+	.
+
+threeer = (x):
+	if (x == 3): return "Three".
+	x
+	.
+show(threeer(2))
+show(threeer(3))
+
+# "break" and "continue" are broken, so this loop will never terminate.
+# i = 0
+# loop:
+# 	i = i + 1
+# 	if (i == 3): continue.
+# 	if (i >= 5): break.
+# 	i string print, "\n" print
+# 	.
+
+# Does work, printing "#<closure>".
+# Number def("times", (block): block string print, "\n" print.)
+# 3 times(): "x".
+
+Number def("times", (block):
+	i = 0
+	while (i < self):
+		block()
+		i = i + 1
+		.
+	.
+	)
+3 times(): "Hello\n" print.
+# 3 times: "Hello\n" print. 	# Crashes.
+
+
+# Objects.
+show("\n== Objects ==")
+selfless = (x): self.
+show(selfless()) 	# == "nil"
+
+
+show("\n=====")
+# show [b, c]
+
+
 
 # Object foom = "foo"
 # Object foom

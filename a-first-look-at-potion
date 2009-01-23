@@ -1,0 +1,154 @@
+A First Look At Potion
+
+=====
+
+Introduction
+
+Potion is a new programming language created by whytheluckystiff.  It is an object-oriented embeddable scripting language.  Source code is compiled to a bytecode, which is then either interpreted, or further compiled to X86 machine code.
+
+When Potion first showed up on programming.reddit.com, it looked intriguing, but it hardly did anything yet and it was highly undocumented.  In just a few days, the object system has reached a point where one could actually do something with it, but the documentation has hardly improved.  The README file is basically all the documentation there is, but it describes sketches for possible syntaxes more than the actual syntax accepted by the compiler.  So here are a few things I've discovered by poking through the source.
+
+=====
+
+Syntax
+
+Some basics: Input is UTF-8.  Newlines are syntactically significant, but indentation is not.  Comments start with “#” and go to the end of the line.  Identifiers may not start with a digit, but otherwise may contain any combination of alphanumeric characters, trans-ASCII UTF-8 characters, or characters from “_$@{}”.  In particular, this means that identifiers may not contain hyphens.  But on the plus side, you can have names like “π” or “α”.
+
+Blocks start with “:” and end with “.”.  They may also end with “_” or “…” followed by an identifier; that's equivalent to a string of “.”s.  More on that later.  Within a block, newlines or commas separate statements.
+
+	: "test" print, "\n" print.
+	: "test" print
+		"\n" print
+		.
+
+However, neither of these examples, at the top level of a script, will do anything.
+
+A “table” is a series of values, surrounded by parentheses, and separated by commas or newlines.
+
+	(1, "a", "foo")
+	("a"
+	 "b"
+	 "c")
+
+A closure/function is a table followed by a block.
+
+	(x): x + 1.
+
+Assigning/declaring a variable is done as you would expect:
+
+	value = 3
+	fn = (x): x + 1.
+
+Now let's call that function.  A function expression followed by a table calls the function.
+
+	fn(value)
+
+If you pass too many arguments to a function, the extra ones are ignored.
+
+	fn(value, 7) 	# == 4
+
+Passing too few arguments seems to give unpredictable results.
+
+What if it *wasn't* a function?
+
+	value(fn) 	# Crashes.
+	3(fn)     	# Stops interpretation of the script.
+	"bar"(fn) 	# Stops interpretation of the script.
+
+A block by itself also seems to be a function (with no arguments).
+
+	flurgh = : "test" print, "\n" print.
+	flurgh()
+
+A function call followed by a block causes the block to be passed as an additional argument.
+
+	fn2 = (first, second): second.
+	seconded = fn2("a"): "b".
+	seconded() 	# returns "b".
+
+This <i>almost</i> means that the built-in control structures could be defined as functions (implemented in C):
+
+	if (3 < 4): "Yeah".
+
+But in fact, the control structures are special-cased by the compiler.  This is especially needed for “elsif” and “else”.  The usual conditional and looping control structures are available.
+
+	x = 3
+	if (x < 3):
+		"Less\n" print.
+	elsif (x == 3):
+		"Equal\n" print.
+	else:
+		"Greater\n" print.
+
+	i = 0
+	while (i < 5):
+		i string print, "\n" print
+		i = i + 1
+		.
+
+	threeer = (x):
+		if (x == 3): return "Three".
+		x
+		.
+	threeer(2) 	# == 2
+	threeer(3) 	# == "Three"
+
+There are also “loop”, “break”, and “continue” statements.  However, “break” and “continue” don't seem to work currently, so this loop will never exit:
+
+	i = 0
+	loop:
+		i = i + 1
+		if (i == 3): continue.
+		if (i >= 5): break.
+		i string print, "\n" print
+		.
+
+*** Statements are expressions.
+*** Binops.
+
+
+=====
+
+Object Model
+
+Vtables (“Mixins”) respond to “lookup”, “allocate”, “def”, and “delegated”.  “def” can take either a closure or a literal.  (Or a “proto”, aka “Compiled”, but I don't know what that is.  A bytecoded method?  Yeah, looks like.)  “delegated” returns a new vtable which is a subclass of the receiver.
+
+“Object”, etc are all vtables.  A list: Lobby, Mixin, Object, Number, NilKind, Boolean, String, Tuple, Closure, Potion, Source, Bytes, Compiled, Ref.  (These are all defined in Lobby.)
+
+Lobby is the root of the class tree, above even Object.  Vtable (“Mixin”) and Object are its two subclasses.
+
+Inside a method, the current object is not given explicitly as an argument, and is known as “self”.  In fact, “self” is available even in closures that are not part of object methods; in that case “self” will be nil.
+
+
+=====
+
+More Syntax
+
+Let's return to that notion of closing multiple blocks at once.  The README file gives some examples, but they use a "times" method on Number that doesn't currently exist.  So let's define it ourself.
+
+	Number def("times", (block):
+		i = 0
+		while (i < self):
+			block()
+			i = i + 1
+			.
+		.
+		)
+	3 times(): "Hello\n" print.
+
+Really we're supposed to be able to do this, but it crashes:
+
+	3 times: "Hello\n" print.
+
+***
+
+=====
+
+Final Notes
+
+*** Second implementation of Id.
+
+Steve Folta, January 2009
+
+
+
