@@ -6,7 +6,7 @@ Introduction
 
 Potion is a new programming language created by whytheluckystiff.  It is an object-oriented embeddable scripting language.  Source code is compiled to a bytecode, which is then either interpreted, or further compiled to X86 machine code.
 
-When Potion first showed up on programming.reddit.com, it looked intriguing, but it hardly did anything yet and it was highly undocumented.  In just a few days, the object system has reached a point where one could actually do something with it, but the documentation has hardly improved.  The README file is basically all the documentation there is, but it describes sketches for possible syntaxes more than the actual syntax accepted by the compiler.  So here are a few things I've discovered by poking through the source.
+When Potion first showed up on programming.reddit.com, it looked intriguing, but it hardly did anything yet and it was highly undocumented.  In just a few days, the object system has <i>almost</i> reached a point where one could actually do something with it, but the documentation has hardly improved.  The README file is basically all the documentation there is, but it describes sketches for possible syntaxes more than the actual syntax accepted by the compiler.  So here are a few things I've discovered by poking through the source.
 
 =====
 
