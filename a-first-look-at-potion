@@ -153,10 +153,11 @@ Really we're supposed to be able to do this, but it crashes:
 Final Notes
 
 *** Second implementation of Id.  Objects have vtable at obj[0] instead of obj[-1].
+*** I don't totally get why the X86 compiler works from the bytecode instead of the AST.  It seems a needless inefficiency.
 
 
 
-<i>Steve Folta, January 2009</i>
+<i> Steve Folta, January 2009 </i>
 
 
 

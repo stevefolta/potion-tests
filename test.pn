@@ -111,6 +111,8 @@ Number def("times", (block):
 show("\n== Objects ==")
 selfless = (x): self.
 test(selfless(), "\"self\" in non-method fn")
+# test(Object kind, "Object kind") 	# "lookup failed 0 string"
+# but: test(0 string, "0 string")  works.
 
 
 show("\n=====")
