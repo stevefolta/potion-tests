@@ -111,6 +111,12 @@ There are also “loop”, “break”, and “continue” statements.  However,
 
 Object Model
 
+Potion's object model is a re-implementation of Id.  That is, everything is an object, all objects have a "vtable", another object that responds to "lookup()" ("lookup:" in Id).  The Potion source sometimes calls vtables "Mixins" (and otherwise calls them "vtables").
+
+Potion does something that seems to me more daring than Id.  Lets say you're defining a new class of objects called "Widget".  What does "Widget" refer to in the source?  In Id, it's an object serving as the prototype for this class of objects.  In Smalltalk, it would be a Class object.  In Potion, it is the vtable.
+
+----
+
 Vtables (“Mixins”) respond to “lookup”, “allocate”, “def”, and “delegated”.  “def” can take either a closure or a literal.  (Or a “proto”, aka “Compiled”, but I don't know what that is.  A bytecoded method?  Yeah, looks like.)  “delegated” returns a new vtable which is a subclass of the receiver.
 
 “Object”, etc are all vtables.  A list: Lobby, Mixin, Object, Number, NilKind, Boolean, String, Tuple, Closure, Potion, Source, Bytes, Compiled, Ref.  (These are all defined in Lobby.)
@@ -146,9 +152,11 @@ Really we're supposed to be able to do this, but it crashes:
 
 Final Notes
 
-*** Second implementation of Id.
+*** Second implementation of Id.  Objects have vtable at obj[0] instead of obj[-1].
 
-Steve Folta, January 2009
+
+
+<i>Steve Folta, January 2009</i>
 
 
 
