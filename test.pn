@@ -1,17 +1,27 @@
+# Functions.
+
 show = (value):
 	value string print
 	"\n" print
 	.
 
+test = (value, name):
+	name print, ":  " print
+	value string print
+	"\n" print
+	.
+
+
+# Tests.
 
 show("== Basics ==")
 show( (1, "a", "foo") )
 show( ("a"
 	"b"
 	"c") )
-show( (x): x + 1. )
+test( (x): x + 1., "(x): x + 1.")
 π = "3.14159"
-show(π)
+test(π, "π")
 
 show("\n== Blocks ==")
 show( : "test" print, "\n" print. )
@@ -100,7 +110,7 @@ Number def("times", (block):
 # Objects.
 show("\n== Objects ==")
 selfless = (x): self.
-show(selfless()) 	# == "nil"
+test(selfless(), "\"self\" in non-method fn")
 
 
 show("\n=====")
