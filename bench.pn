@@ -18,7 +18,16 @@ Fibber def("fib", (n):
 	say(n)
 	if (n < 2):
 		say("n < 2")
-		return(1).
+		# I can't get this to work no matter what:
+		# return(1)
+		# Nor any of this:
+		# result = 1
+		# say2("result", result)
+		# say2("1", 1)
+		# This isn't working either:
+		# They all fail when trying to print the "1", lookup failed on 'print'.
+		1
+		.
 	else:
 		say("n >= 2")
 		x = self fib(n-2)
