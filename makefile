@@ -1,0 +1,3 @@
+all:
+	potion test.pn
+

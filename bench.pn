@@ -1,0 +1,41 @@
+say = (msg): msg string print, "\n" print.
+say2 = (label, value): label print, ":  " print, value print, "\n" print.
+say("Hello...")
+
+Fibber = Object delegated
+say("Object delegated")
+
+# We want to call it "subclass", not "delegated".
+# But it doesn't work: lookup failed: "0 subclass"
+# Object def("subclass", (): return self delegated.)
+# say("Defined 'subclass' as a synonym for 'delegated'.")
+#
+# Fibber = Object subclass
+# say("Object subclassed")
+
+Fibber def("fib", (n):
+	say("in fib")
+	say(n)
+	if (n < 2):
+		say("n < 2")
+		return(1).
+	else:
+		say("n >= 2")
+		x = self fib(n-2)
+		say("got x")
+		say2("x", x)
+		y = self fib(n-1)
+		say2("y", y)
+		say2("x + y + 1", x + y + 1)
+		return(x + y + 1)
+		# Doesn't work, returns nil.
+		# return self fib(n-2) + self fib(n-1) + 1
+		.
+	.)
+
+fibber = Fibber allocate
+num_sends = fibber fib(10)
+"num_sends:  " print, num_sends string print, "\n" print
+
+
+

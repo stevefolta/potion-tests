@@ -87,7 +87,7 @@ But in fact, the control structures are special-cased by the compiler.  This is 
 		.
 
 	threeer = (x):
-		if (x == 3): return "Three".
+		if (x == 3): return("Three").
 		x
 		.
 	threeer(2) 	# == 2
@@ -103,6 +103,8 @@ There are also “loop”, “break”, and “continue” statements.  However,
 		i string print, "\n" print
 		.
 
+In fact, I'm not sure the "return" statement works reliably either.
+
 *** Statements are expressions.
 *** Binops.
 
@@ -114,6 +116,24 @@ Object Model
 Potion's object model is a re-implementation of Id.  That is, everything is an object, all objects have a "vtable", another object that responds to "lookup()" ("lookup:" in Id).  The Potion source sometimes calls vtables "Mixins" (and otherwise calls them "vtables").
 
 Potion does something that seems to me more daring than Id.  Lets say you're defining a new class of objects called "Widget".  What does "Widget" refer to in the source?  In Id, it's an object serving as the prototype for this class of objects.  In Smalltalk, it would be a Class object.  In Potion, it is the vtable.
+
+So let's create a new class and make an object of that class:
+
+	Document = Object delegated
+	doc = Document allocate
+
+Then define a method:
+
+	Document def("string", (): return "#<Document>".)
+
+	doc string             	# == "#<Document>"
+	Object allocate string 	# == "#<object>"
+
+But you can't add fields (aka. instance variables) yet.  In Id (technically, in Pepsi, not Id), new classes define a "_sizeof" method and "new" uses it to determine the object's size.
+
+...
+
+Unfortunately, the machine-code compiler seems to have a bug where "self" can killed in some circumstances.
 
 ----
 
@@ -154,6 +174,7 @@ Final Notes
 
 *** Second implementation of Id.  Objects have vtable at obj[0] instead of obj[-1].
 *** I don't totally get why the X86 compiler works from the bytecode instead of the AST.  It seems a needless inefficiency.
+*** Wrote own GC instead of using Boehm.
 
 
 

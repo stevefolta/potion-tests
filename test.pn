@@ -76,11 +76,11 @@ while (i < 5):
 	.
 
 threeer = (x):
-	if (x == 3): return "Three".
+	if (x == 3): return("Three").
 	x
 	.
-show(threeer(2))
-show(threeer(3))
+test(threeer(2), "threeer(2)")
+test(threeer(3), "threeer(3)")
 
 # "break" and "continue" are broken, so this loop will never terminate.
 # i = 0
@@ -113,6 +113,35 @@ selfless = (x): self.
 test(selfless(), "\"self\" in non-method fn")
 # test(Object kind, "Object kind") 	# "lookup failed 0 string"
 # but: test(0 string, "0 string")  works.
+
+Document = Object delegated
+doc = Document allocate
+test(doc, "doc")
+Document def("string", (): return "#<Document>".)
+test(doc, "doc (after defining 'string')")
+obj = Object allocate
+test(obj string, "obj string")
+# test(Object string, "Object string") 	# Lookup fails: "0 string"
+
+bytes_per_word = 4
+Mixin def("num_fields", (): return 0.)
+Mixin def("new", ():
+	num_slots = self num_fields + 1
+	# num_slots == 1, but this crashes the JIT:
+	# 	test(num_slots, "num_slots")
+	# I think it kills "self", 'cause it's a lookup failed: "0 allocate".
+	# Anyway, num_slots == 1, because 'num_fields' defined in such a way that the
+	# vtable itself won't respond to it; only objects allocated from that vtable
+	# will.  But we can get around that.
+	num_field_fn = self lookup("num_fields")
+	num_slots = num_field_fn() + 1
+	test(num_slots, "num_slots")
+	new_obj = self allocate(num_slots * bytes_per_word)
+	return(new_obj)
+	.)
+Document def("num_fields", (): return 3.)
+doc = Document new
+test(doc, "doc (made with 'new')")
 
 
 show("\n=====")
