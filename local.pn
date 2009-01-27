@@ -1,0 +1,23 @@
+test = (name, value):
+	name print, ":  " print
+	value string print
+	"\n" print
+	.
+
+
+foo = "three"
+
+fn = ():
+	foo = "four"
+	foo
+	.
+
+fn2 = ():
+	foo2 = "five"
+	foo2
+	.
+
+test("fn()", fn())
+test("foo", foo)
+test("fn2", fn2())
+

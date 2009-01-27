@@ -103,7 +103,7 @@ There are also “loop”, “break”, and “continue” statements.  However,
 		i string print, "\n" print
 		.
 
-In fact, I'm not sure the "return" statement works reliably either.
+In fact, the "return" statement doesn't seem to work reliably either.
 
 *** Statements are expressions.
 *** Binops.

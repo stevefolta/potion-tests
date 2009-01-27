@@ -1,0 +1,54 @@
+say = (msg): msg string print, "\n" print.
+say2 = (label, value): label print, ":  " print, value print, "\n" print.
+
+
+wrongness = (n):
+	if (n == 0):
+		say("In n == 0 branch")
+		1
+		.
+	else:
+		say("In n != 0 branch")
+		.
+	.
+
+say2("wrongness(0)", wrongness(0))
+
+
+fib = (n):
+	say("in fib")
+	say(n)
+	if (n < 2):
+		say("n < 2")
+		# I can't get this to work no matter what:
+		# return(1)
+		# Nor any of this:
+		# result = 1
+		# say2("result", result)
+		# say2("1", 1)
+		# This isn't working either:
+		# They all fail when trying to print the "1", lookup failed on 'print'.
+		1
+		.
+	else:
+		say("n >= 2")
+		x = self fib(n-2)
+		say("got x")
+		say2("x", x)
+		y = self fib(n-1)
+		say2("y", y)
+		say2("x + y + 1", x + y + 1)
+		return(x + y + 1)
+		# Doesn't work, returns nil.
+		# return self fib(n-2) + self fib(n-1) + 1
+		.
+	.
+
+say2("fib(10)", fib(10))
+
+# This fails, even in the bytecode interpreter, and the reason seems to be bad
+# codegen for "else".  Rather than ending the "if" branch with a jump past the
+# "else" branch, the compiler starts the "else" branch with a "testjmp".
+# Apparently it thinks it arrived here from the "if"'s test (a "notjmp"), but
+# of course the "if" branch can clobber the value.
+

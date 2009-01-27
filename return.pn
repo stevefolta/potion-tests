@@ -1,0 +1,18 @@
+# What is the correct syntax for "return"?
+
+fn = ():
+	return 33
+	.
+
+fn2 = (n):
+	if (n < 2):
+		"test"
+		33
+		.
+	else:
+		"test2"
+		67
+		.
+	.
+
+
