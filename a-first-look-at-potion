@@ -6,7 +6,7 @@ Introduction
 
 Potion is a new programming language created by whytheluckystiff.  It is an object-oriented embeddable scripting language.  Source code is compiled to a bytecode, which is then either interpreted, or further compiled to X86 machine code.
 
-When Potion first showed up on programming.reddit.com, it looked intriguing, but it hardly did anything yet and it was highly undocumented.  In just a few days, the object system has <i>almost</i> reached a point where one could actually do something with it, but the documentation has hardly improved.  The README file is basically all the documentation there is, but it describes sketches for possible syntaxes more than the actual syntax accepted by the compiler.  So here are a few things I've discovered by poking through the source.
+When Potion first showed up on programming.reddit.com, it looked intriguing, but it hardly did anything yet and it was highly undocumented.  A few days later, the object system had <i>almost</i> reached a point where one could actually do something with it, but as of this writing there is little useful documentation.  The README file is basically all the documentation there is, but it describes sketches for possible syntaxes more than the actual syntax accepted by the compiler.  So here are a few things I've discovered by poking through the source.
 
 =====
 
@@ -30,7 +30,7 @@ A “table” is a series of values, surrounded by parentheses, and separated by
 	 "b"
 	 "c")
 
-A closure/function is a table followed by a block.
+A closure/function is a table followed by a block (syntactically).
 
 	(x): x + 1.
 
@@ -68,12 +68,12 @@ A function call followed by a block causes the block to be passed as an addition
 
 This <i>almost</i> means that the built-in control structures could be defined as functions (implemented in C):
 
-	if (3 < 4): "Yeah".
+	if (3 &lt; 4): "Yeah".
 
 But in fact, the control structures are special-cased by the compiler.  This is especially needed for “elsif” and “else”.  The usual conditional and looping control structures are available.
 
 	x = 3
-	if (x < 3):
+	if (x &lt; 3):
 		"Less\n" print.
 	elsif (x == 3):
 		"Equal\n" print.
@@ -81,7 +81,7 @@ But in fact, the control structures are special-cased by the compiler.  This is 
 		"Greater\n" print.
 
 	i = 0
-	while (i < 5):
+	while (i &lt; 5):
 		i string print, "\n" print
 		i = i + 1
 		.
@@ -99,23 +99,24 @@ There are also “loop”, “break”, and “continue” statements.  However,
 	loop:
 		i = i + 1
 		if (i == 3): continue.
-		if (i >= 5): break.
+		if (i &gt;= 5): break.
 		i string print, "\n" print
 		.
 
-In fact, the "return" statement doesn't seem to work reliably either.
+In fact, the “return” statement doesn't seem to work reliably either.
 
 *** Statements are expressions.
 *** Binops.
+*** _.
 
 
 =====
 
 Object Model
 
-Potion's object model is a re-implementation of Id.  That is, everything is an object, all objects have a "vtable", another object that responds to "lookup()" ("lookup:" in Id).  The Potion source sometimes calls vtables "Mixins" (and otherwise calls them "vtables").
+Potion's object model is a re-implementation of Id.  That is, everything is an object, all objects have a “vtable”, another object that responds to “lookup()” (“lookup:” in Id).  The Potion source sometimes calls vtables “Mixins” (and otherwise calls them “vtables”).
 
-Potion does something that seems to me more daring than Id.  Lets say you're defining a new class of objects called "Widget".  What does "Widget" refer to in the source?  In Id, it's an object serving as the prototype for this class of objects.  In Smalltalk, it would be a Class object.  In Potion, it is the vtable.
+Potion does something that seems to me more daring than Id.  Lets say you're defining a new class of objects called “Widget”.  What does “Widget” refer to in the source?  In Id, it's an object serving as the prototype for this class of objects.  In Smalltalk, it would be a Class object.  In Potion, it is the vtable.
 
 So let's create a new class and make an object of that class:
 
@@ -124,16 +125,16 @@ So let's create a new class and make an object of that class:
 
 Then define a method:
 
-	Document def("string", (): return "#<Document>".)
+	Document def("string", (): return "#&lt;Document&gt;".)
 
-	doc string             	# == "#<Document>"
-	Object allocate string 	# == "#<object>"
+	doc string             	# == "#&lt;Document&gt;"
+	Object allocate string 	# == "#&lt;object&gt;"
 
-But you can't add fields (aka. instance variables) yet.  In Id (technically, in Pepsi, not Id), new classes define a "_sizeof" method and "new" uses it to determine the object's size.
+But you can't add fields (aka. instance variables) yet.  In Id (technically, in Pepsi, not Id), new classes define a “_sizeof” method and “new” uses it to determine the object's size.
 
 ...
 
-Unfortunately, the machine-code compiler seems to have a bug where "self" can killed in some circumstances.
+Unfortunately, the machine-code compiler seems to have a bug where “self” can killed in some circumstances.
 
 ----
 
@@ -150,11 +151,11 @@ Inside a method, the current object is not given explicitly as an argument, and 
 
 More Syntax
 
-Let's return to that notion of closing multiple blocks at once.  The README file gives some examples, but they use a "times" method on Number that doesn't currently exist.  So let's define it ourself.
+Let's return to that notion of closing multiple blocks at once.  The README file gives some examples, but they use a “times” method on Number that doesn't currently exist.  So let's define it ourself.
 
 	Number def("times", (block):
 		i = 0
-		while (i < self):
+		while (i &lt; self):
 			block()
 			i = i + 1
 			.
@@ -178,7 +179,7 @@ Final Notes
 
 
 
-<i> Steve Folta, January 2009 </i>
+<i> Steve Folta, 2009.1 - 2009.2 </i>
 
 
 
