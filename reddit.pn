@@ -1,0 +1,14 @@
+show = (value):
+	value string print
+	"\n" print
+	.
+
+
+show("àà" at (2))
+show("àà" attttttt (2))
+show("àà" at (1))
+show("àà"(1))
+show("aa" at (1))
+show("aa"(1))
+show("aa")
+
